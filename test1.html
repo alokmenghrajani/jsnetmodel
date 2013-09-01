@@ -1,0 +1,56 @@
+<html>
+<head>
+<style>
+div .device {
+  border: 1px solid black;
+}
+</style>
+</head>
+<body>
+<h1>A silly test page</h1>
+
+<script src="jquery-1.10.2.js"></script>
+<script src="jsnetmodel.js"></script>
+<script src="device.js"></script>
+<script src="switch.js"></script>
+<script src="host.js"></script>
+<script src="connection.js"></script>
+<script src="ethernet.js"></script>
+
+<div id="jsnetmodel"></div>
+
+<script>
+var sim = new Sim();
+
+var sw1 = new Sim.Switch(sim);
+var host1 = new Sim.Host(sim);
+$.extend(host1, Sim.Proto.Ethernet.prototype);
+host1.ethernet_init("01:23:45:67:89:00", "192.168.1.1");
+
+var host2 = new Sim.Host(sim);
+$.extend(host2, Sim.Proto.Ethernet.prototype);
+host2.ethernet_init("01:23:45:67:89:01", "192.168.1.2");
+
+var host3 = new Sim.Host(sim);
+$.extend(host3, Sim.Proto.Ethernet.prototype);
+host3.ethernet_init("01:23:45:67:89:02", "192.168.1.3");
+
+sim.connect(host1, sw1);
+sim.connect(host2, sw1);
+sim.connect(host3, sw1);
+
+// Every so often, send an ARP message from host1
+host1.last = 0;
+host1.tick = function(time) {
+  if (time-this.last == 20) {
+    this.ARPing("192.168.1.2");
+//    this.last = time;
+  }
+};
+
+// - an ARP cache (per interface?)
+
+</script>
+
+</body>
+</html>
