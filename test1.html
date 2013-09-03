@@ -7,7 +7,15 @@ div .device {
 </style>
 </head>
 <body>
-<h1>A silly test page</h1>
+<h1>1 switch, 3 hosts</h1>
+<ol>
+<li>host_2 sends an ARPing to host_3.</li>
+<li>host_3 responds to the ARPing.</li>
+<li>
+  host_4 sees the ARPing but not the response, because the switch
+  cached host_2's ARP address.
+</li>
+</ol>
 
 <script src="jquery-1.10.2.js"></script>
 <script src="jsnetmodel.js"></script>

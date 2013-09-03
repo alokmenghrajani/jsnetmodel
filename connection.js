@@ -28,6 +28,11 @@ Sim.Connection.prototype.send = function(src, msg) {
     }
   }
 
+  var output = $('#'+src.name+' .dump')[0];
+  var text = $('<div></div>')[0];
+  text.innerHTML = this.sim.time + ": sending " + JSON.stringify(msg) + " on " + this.name;
+  output.appendChild(text);
+
   // Enqueue msg delivery on next tick
   this.connections.forEach(function(device) {
     if (device != src) {

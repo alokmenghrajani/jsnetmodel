@@ -14,8 +14,6 @@ Sim.Proto.Ethernet.prototype.ARPing = function(dest_ip_address) {
   msg.tha.value = "FF:FF:FF:FF:FF:FF";
   msg.tpa.value = dest_ip_address;
 
-  this.sim.log("Sending ARPing to " + msg.tpa.value);
-
   // TODO: how do we choose which peer to use?
   this.connections[0].send(this, msg);
 }
@@ -36,8 +34,6 @@ Sim.Proto.Ethernet.prototype.ARPing_response = function(msg) {
   resp.spa.value = this.ip;
   resp.tha.value = msg.sha.value;
   resp.tpa.value = msg.spa.value;
-
-  this.sim.log("Sending ARPing response to " + msg.tpa.value);
 
   // TODO: assuming there's only one connection here
   this.connections[0].send(this, resp);
